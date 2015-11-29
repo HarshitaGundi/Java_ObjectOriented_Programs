@@ -1,74 +1,62 @@
 package cs520.hw4;
+//importing the various libraries used
+import javax.swing.JFrame;
+
 import java.awt.Color;
 import java.awt.Graphics;
 
-import javax.swing.JFrame;
-
-public class Legos1 extends JFrame {
-	private int startX;
-	private int startY;
-	private int legoWidth;
-    private int legoHeight;
-    private int baselength;
-    private int initx;
-    int i,j;
-    int count;
-
-	public Legos1() {
-		
-		super("Gundi's LEGOS");
-		
+/**
+ * This class creates a swing GUI application and 
+ *  displays the graphic of lego blocks with each block 
+ * filled with alternate  red and blue colors
+ */
+public class Legos1 extends JFrame{
+	private int startX; // x value of top-left coordinate of first red block in bottom row
+	private int startY; // y value of top-left coordinate of first red block in bottom row
+	private int legoWidth; // Width of each block
+	private int legoHeight; // Height of each block
+	private int baseLength; // Max Number of blocks in a row
+	
+	//Initialization of variables using constructor
+	public Legos1(){
+		super("Harshita's LEGO1 GUI application"); //Window title
 		this.startX = 20;
-		this.initx=20;
 		this.startY = 300;
 		this.legoWidth = 50;
 		this.legoHeight = 20;
-		this.baselength =  10;
-		
-		}
-	
-	public void paint(Graphics g)
-	{
-		super.paint(g);
-		
-       for(j=10;j>=1;j--)
-		   
-	   {
-	   for(i= 1;i<=j;i++)
-		{
-		if(i%2==0)
-	    {
-	    g.setColor(Color.BLUE);
-	 
-	    }
-	    else
-	    {
-	     g.setColor(Color.RED);
-	  
-	    }
-	    g.drawRect(startX,startY,legoWidth,legoHeight);
-	    g.fillRoundRect(startX,startY,legoWidth,legoHeight,2, 2);
-	    startX = startX + 50;
-	    }
-	   
-	    count = count + 1;
-		startY = startY - 20;
-		startX = initx + count * 20;
-		System.out.println(count);
-		   
+		this.baseLength = 10;
 	}
-		
-		
-}
 
+	// drawings in the graphic
+	public void paint(Graphics g){
+		super.paint(g); // calling super class's constructor
+		int x,y; // x,y values to use in fillRoundRect
+		int counter;
+		
+		//Calculating the color to fill for each row and filling it
+		for(int n=this.baseLength; n>0;n--){
+			// Update the x,y values of top left corner of each block. This is done once per row
+			x = this.startX + (10 - n)*(this.legoWidth/2);
+			y = this.startY - (10 - n)*(this.legoHeight);
+			
+			counter=0;  //set the counter to 0 for each row
+			// below loop runs for each block in a given row
+			while(counter<n){
+				//If the block is at odd numbered position, set color to fill as red, blue otherwise. Uses ternary operator
+				Color toFill = (counter%2 == 0) ? Color.RED : Color.BLUE;
+				//Set the color to the color calculated above and fill the rectangle with this color
+				g.setColor(toFill);
+				g.fillRoundRect(x, y, this.legoWidth, this.legoHeight, 2, 2);
+				x = x + this.legoWidth; //Update x position of top left coordinate of each block
+				counter++; // Update the counter
+			}
+		}
+	}
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-		Legos1 app =  new Legos1();
-		app.setSize(550,325);
-		app.setVisible(true);
-		app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+		Legos1 app = new Legos1(); // create an instance of Legos1
+		app.setSize(550, 325); 		//set size of the application window
+		app.setVisible(true); //making window visible
+		app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //closing the application on exit
 	}
 
 }
